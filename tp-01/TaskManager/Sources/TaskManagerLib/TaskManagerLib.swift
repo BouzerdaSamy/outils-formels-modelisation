@@ -1,3 +1,6 @@
+//Bouzerda Samy
+//TP 1
+//Outils formels de modélisation
 import PetriKit
 
 public func createTaskManager() -> PTNet {

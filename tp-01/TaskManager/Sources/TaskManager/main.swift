@@ -1,3 +1,6 @@
+//Bouzerda Samy
+//TP 1
+//Outils formels de modélisation
 import TaskManagerLib
 
 // Ex 3
