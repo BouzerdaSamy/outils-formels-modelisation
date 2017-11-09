@@ -13,7 +13,7 @@ import CoverabilityLib
 // You **are** encouraged to write tests of your own!
 // You may write as many tests as you want here, or even better in `CoverabilityLibTests.swift`.
 // Observe how the two existing tests are implemented to write your own.
-print("TP03 - Graphe de Couverture\n")
+print("TP03 - Création d'un Graphe de Couverture\n")
 //Essai avec le premier modèle
 print("Test avec le createBoundedModel")
 do{
@@ -29,7 +29,7 @@ do{
         let w2  = model.places.first(where: { $0.name == "w2"  }),
         let w3  = model.places.first(where: { $0.name == "w3"  })
         else {
-          fatalError("Erreur avec le modèle")
+          fatalError("Une erreur est survenue avec le modèle")
         }
 
   let initialMarking: CoverabilityMarking =
@@ -37,7 +37,7 @@ do{
 
   print("Essai avec le marquage initial: \(initialMarking)\n")
   if model.coverabilityGraph(from: initialMarking) != nil{
-    print("Graphe de couverture créé.\n")
+    print("Le Graphe de couverture a été créé.\n")
   }
   else{
     print("Une erreur est survenue lors la création.")
@@ -45,7 +45,7 @@ do{
 }
 
 // Essai avec le deuxième modèle
-print("Test avec le createUnboundedModel (Peut prendre un petit moment)")
+print("Test avec le createUnboundedModel")
 do{
   let model = createUnboundedModel()
   guard let s0 = model.places.first(where: { $0.name == "s0" }),
@@ -55,7 +55,7 @@ do{
         let s4 = model.places.first(where: { $0.name == "s4" }),
         let b  = model.places.first(where: { $0.name == "b"  })
         else {
-          fatalError("Erreur avec le modèle")
+          fatalError("Une erreur est survenue avec le modèle")
         }
 
   let initialMarking: CoverabilityMarking =
@@ -63,11 +63,11 @@ do{
 
   print("Essai avec le marquage initial: \(initialMarking)\n")
   if model.coverabilityGraph(from: initialMarking) != nil{
-    print("Graphe de couverture créé.")
+    print("Le Graphe de couverture a été créé.")
   }
   else{
     print("Une erreur est survenue lors de la création")
   }
 }
 
-print("~Fin~")
+print("End")
