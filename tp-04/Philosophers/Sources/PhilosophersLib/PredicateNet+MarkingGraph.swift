@@ -25,19 +25,14 @@ extension PredicateNet {
                 for thisMarquage in depart{   //on reboucle jusqu'à qu'il n'y ait plus de marquage
                     if (PredicateNet.greater(nouveauMarquage.marking, thisMarquage.marking))  // On teste si le nouveau marquage est plus grand qu'un autre marquage quelconque de départ
                     {
-
                         return nil  // On retourne une valeur nulle (nil)
                     }
                 }
-
                 if let marquageVisite = depart.first(where:{PredicateNet.equals($0.marking, nouveauMarquage.marking)})   // on check si on a déjà été visité le marquage
                 {
-
                     node.successors[thisTransition]![contrainte] = marquageVisite   // ajout du marquage au successeurs
                 }else if(!noeudAVisiter.contains(where: { PredicateNet.equals($0.marking, nouveauMarquage.marking) })) {
-
                     noeudAVisiter.append(nouveauMarquage)  // Ajoute  du marquage à la liste des noeuds à visiter
-
                     node.successors[thisTransition]![contrainte] = nouveauMarquage // Ajoute  du marquage au successeurs
                 }
               }
