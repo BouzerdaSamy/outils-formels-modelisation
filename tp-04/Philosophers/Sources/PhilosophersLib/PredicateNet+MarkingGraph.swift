@@ -3,7 +3,6 @@ extension PredicateNet {
     /// Returns the marking graph of a bounded predicate net.
     public func markingGraph(from marking: MarkingType) -> PredicateMarkingNode<T>? {
         // Write your code here ...
-
         // Note that I created the two static methods `equals(_:_:)` and `greater(_:_:)` to help
         // you compare predicate markings. You can use them as the following:
         //
@@ -13,9 +12,39 @@ extension PredicateNet {
         // You may use these methods to check if you've already visited a marking, or if the model
         // is unbounded.
 
-        return nil
-    }
+        let depart = PredicateMarkingNode<T>(marking: marking) // Définition des variables initiales
+        var noeudAVisiter: [PredicateMarkingNode<T>] = [depart]
 
+        while(!noeudAVisiter.isEmpty){ //on boucle jusqu'à qu'il n'y ait plus de noeud à visiter
+            let node = noeudAVisiter.popLast()!
+            for thisTransition in transitions { //on boucle jusqu'à qu'il n'y ait plus de transitions dans le noeud courant
+              node.successors[thisTransition] = [:]   // Définition des successeurs
+              let binding: [PredicateTransition<T>.Binding] = thisTransition.fireableBingings(from: node.marking) //binding des transitions du marquage courant
+              for contrainte in binding{  //on boucle jusqu'à qu'il n'y ait plus de contrainte dans le binding courant
+                let nouveauMarquage = PredicateMarkingNode(marking: thisTransition.fire(from: node.marking, with:contrainte)!) // On tire la transition en utilisant le binding courant, la transition courante et le marquage courant
+                for thisMarquage in depart{   //on reboucle jusqu'à qu'il n'y ait plus de marquage
+                    if (PredicateNet.greater(nouveauMarquage.marking, thisMarquage.marking))  // On teste si le nouveau marquage est plus grand qu'un autre marquage quelconque de départ
+                    {
+
+                        return nil  // On retourne une valeur nulle (nil)
+                    }
+                }
+
+                if let marquageVisite = depart.first(where:{PredicateNet.equals($0.marking, nouveauMarquage.marking)})   // on check si on a déjà été visité le marquage
+                {
+
+                    node.successors[thisTransition]![contrainte] = marquageVisite   // ajout du marquage au successeurs
+                }else if(!noeudAVisiter.contains(where: { PredicateNet.equals($0.marking, nouveauMarquage.marking) })) {
+
+                    noeudAVisiter.append(nouveauMarquage)  // Ajoute  du marquage à la liste des noeuds à visiter
+
+                    node.successors[thisTransition]![contrainte] = nouveauMarquage // Ajoute  du marquage au successeurs
+                }
+              }
+            }
+        }
+        return depart
+    }
     // MARK: Internals
 
     private static func equals(_ lhs: MarkingType, _ rhs: MarkingType) -> Bool {
