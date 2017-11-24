@@ -2,9 +2,16 @@ import ProofKitLib
 
 let a: Formula = "a"
 let b: Formula = "b"
+let c: Formula = "c"
 let f = a && b
+let f1 = !(a && (b || c))
+let f2 = (a => b) || !(a && c)
+let f3 = (!a || b && c) && a
 
-print(f)
+
+print(f1.nnf)
+print(f2.nnf)
+print(f3.nnf)
 
 let booleanEvaluation = f.eval { (proposition) -> Bool in
     switch proposition {
