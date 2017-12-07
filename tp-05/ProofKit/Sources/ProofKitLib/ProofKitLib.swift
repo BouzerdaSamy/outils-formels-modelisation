@@ -43,7 +43,7 @@ public enum Formula {
         return .implication(lhs, rhs)
     }
 
-    /// The negation normal form of the formula.
+    /// NNF de la formule
     public var nnf: Formula {
         switch self {
         case .proposition(_):
@@ -70,17 +70,63 @@ public enum Formula {
         }
     }
 
-    /// The disjunctive normal form of the formula.
-    public var dnf: Formula {
-        // Write your code here ...
-        return self
-    }
+    // DNF de la formule
+     public var dnf: Formula {
 
-    /// The conjunctive normal form of the formula.
-    public var cnf: Formula {
-        // Write your code here ...
-        return self
-    }
+         switch self.nnf {  // Transformation de la formule en NNF
+         case .proposition(_):
+             return self.nnf
+         case .negation(_):
+             return self.nnf
+         case .disjunction(let a, let b): //Dans le cas d'une Disjonction, on retourne la dsijonction des DNF des deux termes
+             return a.dnf || b.dnf
+         case .conjunction(let a, let b):  // Dans le cas d'une Conjonction, on teste si'l existe des Disjonctions factorisables dans les deux parties de la Conjonction
+             // partie gauche de la Conjonction
+             switch a.dnf {
+             case .disjunction(let c, let d):
+                 return (b && d).dnf || (b && c).dnf
+             default: break
+             }
+             // partie droite de la Conjonction
+             switch b.dnf {
+             case .disjunction(let c, let d):
+                 return (c && a).dnf || (d && a).dnf
+             default: break
+             }
+           default: break  // Autrement, on ne peut plus rien faire sur la formule
+         }
+      return self.nnf
+     }
+
+
+    // CNF de la formule
+     public var cnf: Formula {
+
+         switch self.nnf {  // Transformation de la formule en NNF
+         case .proposition(_):
+             return self.nnf
+         case .negation(_):
+             return self.nnf
+         case .conjunction(let a, let b): // Dans le cas d'une Conjonction, on retourne le CNF des deux parties de cette Conjonction
+             return a.cnf && b.cnf
+         case .disjunction(let a, let b): // Dans le cas d'une Disjonction, on teste si'l existe des Conjonctions factorisables dans les deux parties de la Disjonction
+             // partie gauche de la Disjonction
+             switch a.cnf {
+             case .conjunction(let c, let d):
+                 return (b || c).cnf && (b || d).cnf
+             default: break
+             }
+             // partie droite de la Disjonction
+             switch b.cnf {
+             case .conjunction(let c, let d):
+                 return (a || c).cnf && (a||d).cnf
+             default: break
+             }
+             default: break   // Autrement, on ne peut plus rien faire sur la formule
+         }
+          return self.nnf
+ }
+
 
     /// The propositions the formula is based on.
     ///

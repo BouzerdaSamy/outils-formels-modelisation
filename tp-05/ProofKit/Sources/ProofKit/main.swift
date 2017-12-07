@@ -3,6 +3,38 @@ import ProofKitLib
 let a: Formula = "a"
 let b: Formula = "b"
 let c: Formula = "c"
+let f1 = ((a && b) || !(a || c))
+let f2 = !(a && (a || b || c))
+let f3 = (a => b) || !(a && c)
+
+print("Tests des DNF, CNF et NNF")
+print("formule f1")
+print ("forme négative NNF:")
+print(f1.nnf)
+print("Forme conjoctive CNF:")
+print(f1.cnf)
+print("Forme disjoctive DNF:")
+print (f1.dnf)
+print("formule f2")
+print ("forme négative NNF:")
+print(f2.nnf)
+print("Forme conjoctive CNF:")
+print(f2.cnf)
+print("Forme disjoctive DNF:")
+print(f2.dnf)
+print("formule f3")
+print ("forme négative NNF:")
+print(f3.nnf)
+print("Forme conjoctive CNF:")
+print(f3.cnf)
+print("Forme disjoctive DNF:")
+print(f3.dnf)
+
+
+/*
+let a: Formula = "a"
+let b: Formula = "b"
+let c: Formula = "c"
 let f = a && b
 let f1 = !(a && (b || c))
 let f2 = (a => b) || !(a && c)
@@ -12,6 +44,7 @@ let f3 = (!a || b && c) && a
 print(f1.nnf)
 print(f2.nnf)
 print(f3.nnf)
+
 
 let booleanEvaluation = f.eval { (proposition) -> Bool in
     switch proposition {
@@ -57,3 +90,4 @@ let fruityEvaluation = f.eval { (proposition) -> Fruit in
     }
 }
 print(fruityEvaluation)
+*/
